@@ -1,16 +1,12 @@
 <?php
 class BlochqAccounts extends BlochqRequest
 {
-    private
-        $_token = 'sk_test_65976dff2fce7d69652faa8865976dff2fce7d69652faa89',
-        $_type = array('savings', 'virtual'),
+    private $_endpoint;
 
-        $_endpoint = 'https://api.blochq.io/v1/accounts';
-
-    function __construct($token = null)
+    function __construct()
     {
-        $this->_token = isset($GLOBALS['blochq_token']) ? $GLOBALS['blochq_token'] : $token;
-        parent::__construct($this->_token);
+        $this->_endpoint = parent::getEndpoint('accounts');
+        parent::__construct();
     }
 
     // Create Fixed Account
@@ -124,6 +120,42 @@ class BlochqAccounts extends BlochqRequest
         ]
         */
         return $this->put($body, $this->_endpoint . "/$accountID/reopen");
+    }
+
+
+
+    // Credit account
+    public function Creditaccount($body)
+    {
+        /*
+        [
+            'account_id' => '640b045929eb9cf45bc720d3',
+            'amount' => 900000
+        ]
+        */
+        $endpoint = $this->_endpoint . '/credit/manual';
+        return $this->post($body, $endpoint);
+    }
+    
+
+    // Debit account
+    public function Debitaccount($body)
+    {
+        /*
+        [
+            'account_id' => '640b045929eb9cf45bc720d3',
+            'amount' => 900000
+        ]
+        */
+        $endpoint = $this->_endpoint.'/debit/manual';
+        return $this->post($body, $endpoint);
+    }
+
+
+    // Preview Endpoint
+    public function Endpoint()
+    {
+        return $this->_endpoint;
     }
 
 

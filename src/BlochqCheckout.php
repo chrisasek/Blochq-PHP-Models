@@ -1,14 +1,12 @@
 <?php
-class BlochqBills extends BlochqRequest
+class BlochqCheckout extends BlochqRequest
 {
-    private
-        $_token = 'sk_test_65976dff2fce7d69652faa8865976dff2fce7d69652faa89',
-        $_endpoints = 'https://api.blochq.io/v1/checkout/';
+    private $_endpoint;
 
-    function __construct($token = null)
+    function __construct()
     {
-        $this->_token = isset($GLOBALS['blochq_token']) ? $GLOBALS['blochq_token'] : $token;
-        parent::__construct($this->_token);
+        $this->_endpoint = parent::getEndpoint('checkout');
+        parent::__construct();
     }
 
     // Create Checkout
@@ -22,8 +20,15 @@ class BlochqBills extends BlochqRequest
         'amount' => 100000
         ]
         */
-        $endpoint = $this->_endpoints . '/new';
+        $endpoint = $this->_endpoint . '/new';
         return $this->post($body, $endpoint);
+    }
+
+    
+    // Preview Endpoint
+    public function Endpoint()
+    {
+        return $this->_endpoint;
     }
 
     // TEST

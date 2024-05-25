@@ -1,16 +1,13 @@
 <?php
-class BlochqAccounts extends BlochqRequest
+class BlochqWallets extends BlochqRequest
 {
-    private
-        $_token = 'sk_test_65976dff2fce7d69652faa8865976dff2fce7d69652faa89',
-        $_type = array('savings', 'virtual'),
-        $_endpoint = 'https://api.blochq.io/v1/wallets';
+    private $_endpoint;
 
 
-    function __construct($token = null)
+    function __construct()
     {
-        $this->_token = isset($GLOBALS['blochq_token']) ? $GLOBALS['blochq_token'] : $token;
-        parent::__construct($this->_token);
+        $this->_endpoint = parent::getEndpoint('wallets');
+        parent::__construct();
     }
 
 
@@ -61,6 +58,12 @@ class BlochqAccounts extends BlochqRequest
         return $this->post($body, $this->_endpoint . "/debit/manual");
     }
 
+
+    // Preview Endpoint
+    public function Endpoint()
+    {
+        return $this->_endpoint;
+    }
 
     // TEST
     public function test()

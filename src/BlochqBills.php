@@ -1,17 +1,12 @@
 <?php
 class BlochqBills extends BlochqRequest
 {
-    private
-        $_data,
-        $_dataUsed = null,
+    private $_endpoint;
 
-        $_token = 'sk_test_65976dff2fce7d69652faa8865976dff2fce7d69652faa89',
-        $_endpoints = 'https://api.blochq.io/v1/bills';
-
-    function __construct($token = null)
+    function __construct()
     {
-        $this->_token = isset($GLOBALS['blochq_token']) ? $GLOBALS['blochq_token'] : $token;
-        parent::__construct($this->_token);
+        $this->_endpoint = parent::getEndpoint('bills');
+        parent::__construct();
     }
 
     /* 
@@ -21,28 +16,28 @@ class BlochqBills extends BlochqRequest
     // Get Bills
     public function Getsupportedbills()
     {
-        $endpoint = $this->_endpoints . '/supported';
+        $endpoint = $this->_endpoint . '/supported';
         return $this->get($endpoint);
     }
 
     // Get Bill Operators
     public function Getsupportedoperators($operator)
     {
-        $endpoint = $this->_endpoints . '/operators?bill=' . $operator;
+        $endpoint = $this->_endpoint . '/operators?bill=' . $operator;
         return $this->get($endpoint);
     }
 
     // Get Bill Operator Products
     public function Getoperatorproducts($product, $operatorID)
     {
-        $endpoint = $this->_endpoints . "/operators/$operatorID/products?bill=$product";
+        $endpoint = $this->_endpoint . "/operators/$operatorID/products?bill=$product";
         return $this->get($endpoint);
     }
 
     // Get Bill Operator Products
     public function Customerdevicevalidation($meter_type, $device_number, $product, $operatorID)
     {
-        $endpoint = $this->_endpoints . "/customer/validate/$operatorID?meter_type=$meter_type&bill=$product&device_number=$device_number";
+        $endpoint = $this->_endpoint . "/customer/validate/$operatorID?meter_type=$meter_type&bill=$product&device_number=$device_number";
         return $this->get($endpoint);
     }
 
@@ -69,9 +64,15 @@ class BlochqBills extends BlochqRequest
         "message": "make payment"
         }
         */
-        return $this->post($body, $this->_token, $this->_endpoints . "/payment?bill=$product");
+        return $this->post($body, $this->_endpoint . "/payment?bill=$product");
     }
 
+
+    // Preview Endpoint
+    public function Endpoint()
+    {
+        return $this->_endpoint;
+    }
 
     // TEST
     public function test()

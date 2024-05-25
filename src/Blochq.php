@@ -14,10 +14,9 @@ class Blochq extends BlochqRequest
             'bills' => 'https://api.blochq.io/v1/bills',
         );
 
-    function __construct($token = 'sk_test_65976dff2fce7d69652faa8865976dff2fce7d69652faa89')
+    function __construct()
     {
-        $this->_token = isset($GLOBALS['blochq_token']) ? $GLOBALS['blochq_token'] : $token;
-        parent::__construct($this->_token);
+        parent::__construct();
     }
 
 
